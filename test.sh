@@ -39,10 +39,11 @@ list_tests() {
 }
 
 execute_single_test() {
+    echo -n "Running ${1}"
     if $1; then
-        echo "Test ${1} - PASS"
+        echo " - PASS"
     else
-        echo "Test ${1} - FAIL"
+        echo " - FAIL"
     fi
 }
 
@@ -67,6 +68,10 @@ test_2() {
 
 test_3() {
     sleep 5
+}
+
+test_fail() {
+    return 1
 }
 
 main() {
