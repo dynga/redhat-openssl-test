@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 print_help() {
-    echo "OpenSSL TLS test suite assigned as Linux Security interview homework for Red Hat."
-    echo "Usage: test.sh [TEST]"
-    echo "       test.sh [OPTION]"
+    echo "OpenSSL TLS test suite assigned as Linux Security interview \
+        homework for Red Hat."
+    echo "Usage: test.sh [OPTION]"
+    echo "       test.sh [TEST]"
     echo "OPTION argument:"
     echo "-h --help - print this help screen"
     echo "-l --list - print all available tests"
@@ -16,10 +17,12 @@ setup() {
     echo "Performing test setup"
     {
     dnf install -y openssl crypto-policies crypto-policies-scripts
-    openssl req -x509 -newkey rsa -keyout key.pem -out server.pem -days 365 -nodes -subj "/CN=localhost"
+    openssl req -x509 -newkey rsa -keyout key.pem -out server.pem -days 365 \
+        -nodes -subj "/CN=localhost"
     openssl s_server -key key.pem -cert server.pem &
     export S_SERVER_PID=$!
     } &> /dev/null
+    echo "Test setup done!"
 }
 
 cleanup() {
@@ -29,6 +32,7 @@ cleanup() {
     kill -9 $S_SERVER_PID
     rm key.pem server.pem
     } &> /dev/null
+    echo "Test cleanup done!"
 }
 
 list_tests() {
@@ -44,10 +48,15 @@ execute_single_test() {
 }
 
 execute_all_tests() {
-    for test in test_1 test_2 test_3; do
+    mapfile -t tests < <( list_tests )
+
+    for test in "${tests[@]}"; do
         execute_single_test $test
     done
 }
+
+# All test functions' names need to beging with "test_"
+# in order to get picked up by the test suite
 
 test_1() {
     sleep 5
@@ -61,39 +70,43 @@ test_3() {
     sleep 5
 }
 
+main() {
 
-if [[ $EUID -ne 0 ]]; then
-  echo "The script needs root priviledges to run."
-  exit
-fi
+    if [[ $EUID -ne 0 ]]; then
+        echo "The script needs root priviledges to run."
+        exit
+    fi
 
-if [[ ! $(cat /etc/system-release) =~ "Fedora release 41" ]]; then
-    echo "This test targets Fedora 41 exclusively."
-    exit
-fi
+    if [[ ! $(cat /etc/system-release) =~ "Fedora release 41" ]]; then
+        echo "This test targets Fedora 41 exclusively."
+        exit
+    fi
 
-case $1 in
-    -h|--help)
-        print_help
-        ;;
-    -l|--list)
-        echo "List of available tests:"
-        list_tests
-        ;;
-    test_1 | test_2 | test_3)
-        setup
-        execute_single_test $1
-        cleanup
-        ;;
-    *)
-        if [[ $# -eq 0 ]]; then
+    case $1 in
+        -h|--help)
+            print_help
+            ;;
+        -l|--list)
+            echo "List of available tests:"
+            list_tests
+            ;;
+        test_1 | test_2 | test_3)
             setup
-            execute_all_tests
+            execute_single_test $1
             cleanup
-        elif [[ $# -gt 1 ]]; then
-            echo "Too many arguments provided. Use -h to print help."
-        else
-            echo "Unknown argument found. Use -h to print help."
-        fi
-        ;;
-esac
+            ;;
+        *)
+            if [[ $# -eq 0 ]]; then
+                setup
+                execute_all_tests
+                cleanup
+            elif [[ $# -gt 1 ]]; then
+                echo "Too many arguments provided. Use -h to print help."
+            else
+                echo "Unknown argument found. Use -h to print help."
+            fi
+            ;;
+    esac
+}
+
+main "$@"
