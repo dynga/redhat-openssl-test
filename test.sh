@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 print_help() {
-    echo "OpenSSL TLS test suite assigned as Linux Security interview \
-        homework for Red Hat."
+    echo "OpenSSL TLS test suite assigned as Linux Security interview homework for Red Hat."
     echo "Usage: test.sh [OPTION]"
     echo "       test.sh [TEST]"
     echo "OPTION argument:"
@@ -82,6 +81,10 @@ main() {
         exit
     fi
 
+    if [[ $# -gt 1 ]]; then
+        echo "Too many arguments provided. Use -h to print help."
+    fi
+
     case $1 in
         -h|--help)
             print_help
@@ -92,7 +95,7 @@ main() {
             ;;
         test_1 | test_2 | test_3)
             setup
-            execute_single_test $1
+            execute_single_test "$1"
             cleanup
             ;;
         *)
@@ -100,8 +103,6 @@ main() {
                 setup
                 execute_all_tests
                 cleanup
-            elif [[ $# -gt 1 ]]; then
-                echo "Too many arguments provided. Use -h to print help."
             else
                 echo "Unknown argument found. Use -h to print help."
             fi
