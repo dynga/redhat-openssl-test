@@ -12,10 +12,10 @@ Test Scenarios:
     - LEGACY accepts Diffie-Hellman parameters >= 1024 bits in size, while DEFAULT accepts only >= 2048 bits
 
     Test cases:
-        - set policy to LEGACY, try connecting with DH parameters 1023b long -> handshake should fail
-        - set policy to LEGACY, try connecting with DH parameters 1024b long -> handshake should succeed
-        - set policy to DEFAULT, try connecting with DH parameters 2047b long -> handshake should fail
-        - set policy to DEFAULT, try connecting with DH parameters 2048b long -> handshake should succeed
+        - set policy to LEGACY, try connecting with DH parameters 1023b long -> connection should fail
+        - set policy to LEGACY, try connecting with DH parameters 1024b long -> connection should succeed
+        - set policy to DEFAULT, try connecting with DH parameters 2047b long -> connection should fail
+        - set policy to DEFAULT, try connecting with DH parameters 2048b long -> connection should succeed
 
 2. Verify that signature algorithms get correctly adjusted between profiles
     - LEGACY accepts signature algorithms encrypted with SHA-1 or better and accepts DSA, DEFAULT accepts SHA-224 encryption or better and doesn't accept DSA
@@ -23,10 +23,10 @@ Test Scenarios:
     Test cases:
         - set policy to DEFAULT, try connecting with DSA -> connection should fail
         - set policy to DEFAULT, try connecting with (RSA / ECDSA) -> connection should succeed
-        - set policy to LEGACY, try connecting with RSA encrypted with SHA-0 -> connection should fail
-        - set policy to LEGACY, try connecting with RSA encrypted with SHA-1 -> connection should succeed
-        - set policy to DEFAULT, try connecting with RSA encrypted with SHA-1 -> connection should fail
-        - set policy to DEFAULT, try connecting with RSA encrypted with SHA-224 -> connection should succeed
+        - set policy to LEGACY, try connecting with an RSA key encrypted with SHA-0 -> connection should fail
+        - set policy to LEGACY, try connecting with an RSA key encrypted with SHA-1 -> connection should succeed
+        - set policy to DEFAULT, try connecting with an RSA key encrypted with SHA-1 -> connection should fail
+        - set policy to DEFAULT, try connecting with an RSA key encrypted with SHA-224 -> connection should succeed
 
 3. Verify that the set of accepted TLS ciphers changes correctly between profiles
     - LEGACY accepts the 3DES TLS cipher while DEFAULT doesn't
@@ -39,10 +39,10 @@ Test Scenarios:
     - LEGACY accepts RSA keys >= 1024 bits in size, but DEFAULT accepts only >= 2048 bits
 
     Test cases:
-        - set policy to LEGACY, try connecting with RSA key 1023b long -> connection should fail
-        - set policy to LEGACY, try connecting with RSA key 1024b long -> connection should succeed
-        - set policy to DEFAULT, try connecting with RSA key 2047b long -> connection should fail
-        - set policy to DEFAULT, try connecting with RSA key 2048b long -> connection should succeed
+        - set policy to LEGACY, try connecting with an RSA key 1023b long -> connection should fail
+        - set policy to LEGACY, try connecting with an RSA key 1024b long -> connection should succeed
+        - set policy to DEFAULT, try connecting with an RSA key 2047b long -> connection should fail
+        - set policy to DEFAULT, try connecting with an RSA key 2048b long -> connection should succeed
 
 5. Verify that the allowed TLS protocol versions are getting adjusted correctly between versions
     - LEGACY accepts TLS >= 1.0, DEFAULT only >= 1.2
