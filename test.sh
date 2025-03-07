@@ -99,7 +99,7 @@ main() {
             list_tests
             ;;
         *)
-            mapfile -t args < <( list_tests)
+            mapfile -t args < <( list_tests )
             if [[ ${args[*]} =~ $1 ]]; then
                 setup
                 execute_single_test "$1"
