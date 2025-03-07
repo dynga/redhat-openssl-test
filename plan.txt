@@ -4,9 +4,7 @@ Scope:
 
 This test plan aims to test whether TLS connections estabilished by OpenSSL respect the profile set by 'crypto-policies'.
 
-This test plan focuses only on 'DEFAULT' and 'LEGACY' profiles of 'crypto-policies'.
-
-This test plan targets Fedora 41.
+This test plan targets Fedora 41 focuses only on 'DEFAULT' and 'LEGACY' profiles of 'crypto-policies'.
 
 Test Scenarios:
 
