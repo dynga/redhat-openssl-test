@@ -51,7 +51,7 @@ execute_all_tests() {
     mapfile -t tests < <( list_tests )
 
     for test in "${tests[@]}"; do
-        execute_single_test $test
+        execute_single_test ""$test
     done
 }
 
@@ -98,13 +98,13 @@ main() {
             echo "List of available tests:"
             list_tests
             ;;
-        test_1 | test_2 | test_3)
-            setup
-            execute_single_test "$1"
-            cleanup
-            ;;
         *)
-            if [[ $# -eq 0 ]]; then
+            mapfile -t args < <( list_tests)
+            if [[ ${args[*]} =~ $1 ]]; then
+                setup
+                execute_single_test "$1"
+                cleanup
+            elif [[ $# -eq 0 ]]; then
                 setup
                 execute_all_tests
                 cleanup
