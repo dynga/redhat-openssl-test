@@ -8,7 +8,7 @@ print_help() {
     echo "OPTION argument:"
     echo "-h --help - print this help screen"
     echo "-l --list - print all available tests"
-    echo "TEST :"
+    echo "TEST argument:"
     echo "Run with test name as the TEST argument to run a specific test."
     echo "Run without parameters to run all available tests."
 }
