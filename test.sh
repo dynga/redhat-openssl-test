@@ -55,7 +55,7 @@ execute_all_tests() {
     done
 }
 
-# All test functions' names need to beging with "test_"
+# All test functions' names need to begin with "test_"
 # in order to get picked up by the test suite
 
 test_1() {
