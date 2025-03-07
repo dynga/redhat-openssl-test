@@ -50,15 +50,15 @@ execute_all_tests() {
 }
 
 test_1() {
-    echo "This is test 1"
+    sleep 5
 }
 
 test_2() {
-    echo "This is test 2"
+    sleep 5
 }
 
 test_3() {
-    echo "This is test 3"
+    sleep 5
 }
 
 
@@ -90,6 +90,8 @@ case $1 in
             setup
             execute_all_tests
             cleanup
+        elif [[ $# -gt 1 ]]; then
+            echo "Too many arguments provided. Use -h to print help."
         else
             echo "Unknown argument found. Use -h to print help."
         fi
